@@ -9,39 +9,39 @@ using System.Xml.Schema;
 
 namespace screens
 {
-    internal class Program
+    static class console
     {
-        static int xxx = 0;
-        static int yyy = 0;
-        static int zzz = 0;
-        static void locates(int x,int y)
+        static private int xxx = 0;
+        static private int yyy = 0;
+        static private int zzz = 0;
+        static public void SetCursorPositions(int x, int y)
         {
             xxx = x;
             yyy = y;
             zzz = y * 80 * 2 + x;
-            
+
         }
-        static void prints(string s)
+        static public void Writeln(string s)
         {
             string ss = s + "\0";
             copyb8000(zzz, ss);
             xxx = 0;
             yyy++;
-            
-            if (yyy>25)
+
+            if (yyy > 25)
             {
                 yyy = 25;
                 scrollb8000();
             }
-            locates(xxx, yyy);
+            SetCursorPositions(xxx, yyy);
         }
         static void scrollb8000()
         {
-            Console.SetCursorPosition(0,29);
+            Console.SetCursorPosition(0, 29);
             Console.WriteLine("");
-            Console.SetCursorPosition(xxx,yyy);
+            Console.SetCursorPosition(xxx, yyy);
         }
-        static void copyb8000(Int32 addresss,string s)
+        static void copyb8000(Int32 addresss, string s)
         {
             Int32 i = addresss / 2;
             int y = i / 80;
@@ -52,18 +52,23 @@ namespace screens
                 Console.Write(s);
             }
         }
+    }
+    internal class Program
+    {
+
+        
         static void mainss() {
             int x = 0;
             int y = 1;
             int n = 0;
             string memory = "hello world...";
-
-            locates(x, y);
-            prints(memory);
+           
+            console.SetCursorPositions(x, y);
+            console.Writeln(memory);
             for (n = 0; n < 24; n++)
             {
-                
-                prints((25 - n).ToString());
+
+                console.Writeln((25 - n).ToString());
                 
             }
         }
